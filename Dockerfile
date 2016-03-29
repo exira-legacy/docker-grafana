@@ -11,15 +11,14 @@ ADD package.json /tmp/package.json
 RUN \
     # Install build and runtime packages
     build_pkgs="build-base go nodejs git mercurial" && \
-    runtime_pkgs="bash curl" && \
     apk update && \
     apk upgrade && \
-    apk --update --no-cache add ${build_pkgs} ${runtime_pkgs} && \
+    apk --update --no-cache add ${build_pkgs} && \
 
     # compile grafana
     mkdir -p /go/src/github.com/grafana && \
     cd /go/src/github.com/grafana && \
-    git clone https://github.com/grafana/grafana.git -b ${GRAFANA_VERSION} && \
+    git clone https://github.com/grafana/grafana.git -v -b ${GRAFANA_VERSION} && \
     cd grafana && \
     cp /tmp/package.json /go/src/github.com/grafana/grafana/package.json && \
     go run build.go setup && \
